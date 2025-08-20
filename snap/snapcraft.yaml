@@ -1,0 +1,42 @@
+name: datum-getway
+base: core24
+version: '0.4.0'
+summary: Decentralized Alternative Templates for Universal Mining
+description: |
+  The DATUM Gateway is a server providing solo mining capabilities for Bitcoin
+  miners, including both non-pooled and pooled solo mining using the new DATUM
+  protocol.
+
+grade: devel
+confinement: devmode
+
+apps:
+  daemon:
+    command: bin/datum_gateway
+    plugs: [home, network, network-bind]
+    environment:
+      HOME: $SNAP_USER_COMMON
+
+parts:
+  datum-gateway:
+    plugin: nil
+    override-build: |
+      git clone https://github.com/ocean-xyz/datum-gateway.git
+      cd datum-gateway
+      git checkout v0.4.0beta
+      cmake . && make
+      install -m 0755 -D -t $SNAPCRAFT_PART_INSTALL/bin datum_gateway
+    stage-packages:
+      - libcurl4-openssl-dev
+      - libjansson-dev
+      - libsodium-dev
+      - libmicrohttpd-dev
+    build-packages:
+      - git
+      - cmake 
+      - pkgconf
+      - libcurl4-openssl-dev 
+      - libjansson-dev
+      - libsodium-dev 
+      - libmicrohttpd-dev 
+      - psmisc
