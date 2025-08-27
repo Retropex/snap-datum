@@ -7,8 +7,8 @@ description: |
   miners, including both non-pooled and pooled solo mining using the new DATUM
   protocol.
 
-grade: devel
-confinement: devmode
+grade: stable
+confinement: strict
 
 apps:
   daemon:
